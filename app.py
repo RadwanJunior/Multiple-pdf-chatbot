@@ -29,7 +29,8 @@ def get_text_chunks(text):
 
 def get_vectorstore(text_chunks):
     # embeddings = OpenAIEmbeddings()
-    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
+    # Update this line in the get_vectorstore function
+    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl", tokens_per_minute=1000)
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
