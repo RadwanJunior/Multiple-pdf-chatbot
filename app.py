@@ -38,7 +38,7 @@ def get_conversation_chain(vectorstore):
     llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
 
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
-    
+
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=vectorstore.as_retriever(),
@@ -50,6 +50,11 @@ def get_conversation_chain(vectorstore):
 def main():
     load_dotenv()
     st.set_page_config(page_title="Chat with multiple PDFs", page_icon=":books:")
+
+    if "conversation" not in st.session_state:
+        st.session_state.conversation = None
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = None
 
     #Header of page
     st.header("Chat with multiple PDFs :books:")
@@ -73,7 +78,8 @@ def main():
                 vectorstore = get_vectorstore(text_chunks)
 
                 #create conversation chain instance
-                conversation = get_conversation_chain(vectorstore)
+                st.session_state.conversation = get_conversation_chain(vectorstore)
+
 
 
 
