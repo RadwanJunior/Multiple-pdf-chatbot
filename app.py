@@ -23,6 +23,12 @@ def get_text_chunks(text):
     chunks = text_splitter.split_text(text)
     return chunks
 
+def get_vectorstore(text_chunks):
+    # embeddings = OpenAIEmbeddings()
+    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
+    vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
+    return vectorstore
+
 def main():
     load_dotenv()
     st.set_page_config(page_title="Chat with multiple PDFs", page_icon=":books:")
@@ -46,6 +52,7 @@ def main():
                 text_chunks = get_text_chunks(raw_text)
 
                 #create vector store
+                vectorstore = get_vectorstore(text_chunks)
 
 
 
