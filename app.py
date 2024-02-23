@@ -62,6 +62,7 @@ def handle_userinput(user_question):
 def main():
     load_dotenv()
     st.set_page_config(page_title="Chat with multiple PDFs", page_icon=":books:")
+    st.write(css, unsafe_allow_html=True)
 
     if "conversation" not in st.session_state:
         st.session_state.conversation = None
@@ -93,11 +94,6 @@ def main():
 
                 #create conversation chain instance
                 st.session_state.conversation = get_conversation_chain(vectorstore)
-
-
-
-
-
 
 
 if __name__ == "__main__":
